@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nota', function (Blueprint $table){
+        Schema::create('detail_pembelian', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_kasir')->nullable()->constrained('users')->nullOnDelete();
-            $table->date('tanggal');
+            $table->foreignId('id_pembelian')->constrained('restock');
+            $table->foreignId('id_produk')->constrained('produk');
+            $table->integer('jumlah');
+            $table->integer('harga');
             $table->integer('total');
-            $table->integer('bayar');
-            $table->integer('kembali');
-            $table->string('status')->nullable();
-            $table->string('metode');
-            $table->timestamps();
         });
     }
 
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nota');
+        Schema::dropIfExists('detail_pembelian');
     }
 };

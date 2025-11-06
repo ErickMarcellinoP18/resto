@@ -21,7 +21,6 @@ class DetilNota extends Model
         'subtotal',
         'hpp',
         'diskon',
-        'id_varian',
     ];
 
     public function produk()
@@ -32,11 +31,6 @@ class DetilNota extends Model
     public function nota()
     {
         return $this->belongsTo(Nota::class, 'id_nota');
-    }
-
-    public function varian()
-    {
-        return $this->belongsTo(Varian::class, 'id_varian');
     }
 
 }

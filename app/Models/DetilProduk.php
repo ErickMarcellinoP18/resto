@@ -18,7 +18,6 @@ class DetilProduk extends Model
         'stok',
         'harga',
         'hpp',
-        'id_varian',
     ];
 
     public function produk()
@@ -31,8 +30,4 @@ class DetilProduk extends Model
         return $this->belongsTo(Supplier::class, 'id_supplier');
     }
 
-    public function varian()
-    {
-        return $this->belongsTo(Varian::class, 'id_varian');
-    }
 }

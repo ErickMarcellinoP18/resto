@@ -21,23 +21,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'foto',
         'email',
         'password',
-        'verify_key',
-        'active',
-        'lokasi',
         'jabatan',
     ];
 
     protected $hidden = [
         'password',
-        'remember_token',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-        ];
-    }
-
     
 }

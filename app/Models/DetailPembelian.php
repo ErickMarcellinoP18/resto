@@ -15,7 +15,6 @@ class DetailPembelian extends Model
     protected $fillable = [
         'id_pembelian',
         'id_produk',
-        'id_varian',
         'jumlah',
         'harga',
         'total',
@@ -31,8 +30,4 @@ class DetailPembelian extends Model
         return $this->belongsTo(Restock::class, 'id_pembelian');
     }
 
-    public function varian()
-    {
-        return $this->belongsTo(Varian::class, 'id_varian');
-    }
 }

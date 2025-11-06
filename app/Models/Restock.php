@@ -16,7 +16,6 @@ class Restock extends Model
         'id_supplier',
         'tanggal',
         'no_trans',
-        'tanggal_tempo',
         'metode',
         'tbayar',
     ];

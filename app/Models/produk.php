@@ -36,8 +36,4 @@ class Produk extends Model
         return $this->hasMany(\App\Models\DetilNota::class, 'id_produk', 'id');
     }
 
-    public function varian()
-    {
-        return $this->hasMany(Varian::class, 'id_produk', 'id');
-    }
 }

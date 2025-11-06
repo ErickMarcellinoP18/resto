@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('produk', function (Blueprint $table) {
-            $table->string('status')->default('aktif');
+        Schema::create('users', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('foto')->nullable();
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->integer('jabatan')->default(0);
         });
     }
 
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('produk', function (Blueprint $table) {
-            $table->dropColumn('status');
-        });
+        Schema::dropIfExists('users');
     }
 };
