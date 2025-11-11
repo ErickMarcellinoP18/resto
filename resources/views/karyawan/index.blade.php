@@ -26,6 +26,7 @@
                             @if (session('error'))
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
+                            <a class="btn btn-info" href="">Tambah Karyawan</a>
                             <button type="submit" class="btn btn-success">Update Jabatan</button>
                         </div>
                         <div class="card-body">
@@ -54,15 +55,15 @@
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
                                             <td class="text-white">
-                                                <span class="badge bg-{{ strtolower($user->jabatan) === 'admin' ? 'success' : (strtolower($user->jabatan) === 'kasir' ? 'warning' : 'info') }}">
-                                                    {{ $user->jabatan ?: 'Belum Ada Jabatan' }}
+                                                <span class="badge bg-{{ $user->jabatan === 1 ? 'success' : ($user->jabatan === 0 ? 'danger' : ($user->jabatan === 2 ? 'info' : 'success-emphasis')) }}">
+                                                    {{ $user->jabatan === 0 ? 'Kasir' : ($user->jabatan === 1 ? 'Admin' : ($user->jabatan === 2 ? 'Super Admin' : 'Nonaktif')) }}
                                                 </span>
                                             </td>
                                             <td>
                                                 <select name="jabatan[{{ $user->id }}]" class="form-select form-select-sm" @if($user->id === auth()->id()) disabled @endif>
                                                     <option value="">-- Pilih Jabatan --</option>
-                                                    <option value="kasir" {{ $user->jabatan == 'kasir' ? 'selected' : '' }}>Kasir</option>
-                                                    <option value="admin" {{ $user->jabatan == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                    <option value="0" {{ $user->jabatan == 'kasir' ? 'selected' : '' }}>Kasir</option>
+                                                    <option value="1" {{ $user->jabatan == 'admin' ? 'selected' : '' }}>Admin</option>
                                                     <option value="non" {{ $user->jabatan == 'non' ? 'selected' : '' }}>Nonaktif</option>
                                                 </select>
                                             </td>

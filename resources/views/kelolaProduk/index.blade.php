@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Program Toko - Produk</title>
+    <title>POS - Produk</title>
     @include('ADMTemplate.head')
 </head>
 

@@ -12,7 +12,8 @@ class KaryawanController extends Controller
     public function index()
     {
         $search = request()->input('search');
-        $karyawan = User::Where('name', 'like', '%'. $search.  '%')->get();
+        $karyawan = User::Where('name', 'like', '%'. $search.  '%')
+        ->where('status', '=', '1')->get();
         return view('karyawan.index', compact('karyawan'));
     }
 

@@ -35,7 +35,7 @@ class UserController extends Controller
         ]);
 
         try {
-            $user = User::find($id);
+            $user = auth()->user();
             if (!$user) {
                 return redirect()->route('/')->with('error', 'User not found.');
             }
@@ -47,9 +47,9 @@ class UserController extends Controller
 
                 $image = $request->file('foto')->store('user', 'public');
                 $user->foto = $image; 
+                $user->save();
             }
 
-            $user->save(); 
 
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());

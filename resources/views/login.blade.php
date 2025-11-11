@@ -2,104 +2,87 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="loginStyle.css">
-    <title>Program Toko</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>POS - Login</title>
+
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-gradient-primary">
 
-    <div class="container" id="container">
-        <div class="form-container sign-up">
-            @if (session('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
-            @endif
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
 
-            <form method="post" action="{{ route('actionRegister') }}">
-                @csrf
-                <h1>Buat Akun</h1>
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                    </div>
+
+                                    <form method="POST" action="{{ route('actionLogin') }}" class="user">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="text" name="email" class="form-control form-control-user"
+                                                id="email" aria-describedby="emailHelp"
+                                                placeholder="Masukkan NIP atau Email..." required autofocus>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="password" class="form-control form-control-user"
+                                                id="password" placeholder="Password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" name="remember" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Remember Me</label>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Login
+                                        </button>
+                                        <hr>
+                                        <a href="#" class="btn btn-google btn-user btn-block">
+                                            <i class="fab fa-google fa-fw"></i> Login with Google
+                                        </a>
+                                        <a href="#" class="btn btn-facebook btn-user btn-block">
+                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+                                        </a>
+                                    </form>
+
+                                    <hr>
+                                    <div class="text-center">
+                                    </div>
+                                    <div class="text-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                @endif
-                <span>Gunakan akun email anda untuk pendaftaran</span>
-                <input class="form-control" type="text" name="name" placeholder="Nama" required>
-                <input class="form-control" type="email" name="email" placeholder="Email" required>
-                <input class="form-control" type="password" name="password" placeholder="Password" required>
-                <button type="submit">Sign Up</button>
-            </form>
-        </div>
-        <div class="form-container sign-in">
-            @if (session('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
                 </div>
-            @endif
-            <form method="post" action="{{ route('actionLogin') }}">
-                @csrf
-                @if (Session::has('error'))
-                    <div class="alert alert-danger">{{ Session::get('error') }}</div>
-                @endif
-                <h1>Sign In</h1>
-                <span>gunakan email dan password anda untuk masuk</span>
-                <input class="form-control" type="text" name="email" placeholder="Email" required>
-                <input class="form-control" type="password" name="password" placeholder="Password" required>
-                <a href="/forgot-password">Lupa Password? Silakan Tekan</a>
-                <button type="submit">Sign In</button>
-            </form>
-        </div>
-        <div class="toggle-container">
-            <div class="toggle">
-                <div class="toggle-panel toggle-left">
-                    <h1>Selamat Datang!</h1>
-                    <p>Isi semua form yang tersedia untuk dapat membuat sebuah akun</p>
-                    <button class="hidden" id="login">Masuk</button>
-                </div>
-                <div class="toggle-panel toggle-right">
-                    <h1>Belum Punya Akun Kasir?</h1>
-                    <p>Lakukan Register untuk Aktifkan Akun Kasir Anda</p>
-                    <button class="hidden" id="register">Register</button>
-                </div>
+
             </div>
         </div>
     </div>
 
-    <script src="loginScript.js"></script>
-    <script>
-        @if (session('alert'))
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: "{{ session('alert') }}",
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        @endif
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-        @if (session('success'))
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: "{{ session('success') }}",
-                toast: true,
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
-        @endif
-    </script>
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
 </body>
 
 </html>

@@ -14,6 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, CanResetPassword;
 
     protected $table = 'users';
+    public $timestamps = false;
     protected $primaryKey = 'id';
 
     protected $fillable = [
@@ -22,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'jabatan',
+        'status',
     ];
 
     protected $hidden = [

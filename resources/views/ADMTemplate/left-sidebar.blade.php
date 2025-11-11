@@ -3,9 +3,9 @@
     <!-- Sidebar - Brand -->
     <a style="margin-top:10px ; "class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
         <div class="sidebar-brand-icon">
-            <img src="{{ asset('images/damai.jpeg') }}" alt="Logo P3L" style="height: 50px; width: 50px; border-radius: 50%; background-color: white;">
+            <img src="{{ asset('images/bbg.jpg') }}" alt="Logo P3L" style="height: 50px; width: 50px; border-radius: 50%; background-color: white;">
         </div>
-        <div class="sidebar-brand-text mx-3">Toko Sepeda Damai</div>
+        <div class="sidebar-brand-text mx-3">Antic Cafe</div>
     </a>
 
     <!-- Divider -->
@@ -19,7 +19,7 @@
     </li>
     
     <hr class="sidebar-divider my-0">
-    @if(Auth::check() && Auth::user()->jabatan == 'admin')
+    @if(Auth::check() && Auth::user()->jabatan != 0)
     <li class="nav-item">
         <a class="nav-link" href="{{ url('/dashboard') }}">
         <i class="fas fa-fw fa-tachometer-alt"></i> <span>Dashboard</span></a>

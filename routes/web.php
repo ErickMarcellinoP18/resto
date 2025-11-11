@@ -27,11 +27,7 @@ use App\Models\Produk;
 
 
 Route::get('/', function () {
-    $produk = Produk::where('status', 'aktif')
-    ->limit(8)
-    ->inRandomOrder()
-    ->get();
-    return view('home', compact('produk'));
+    return view('login');
 });
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Produk;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -26,16 +27,17 @@ class LoginController extends Controller
 
         if(Auth::attempt($data)){
             $user = Auth::user();
+            $karyawan = User::all();
             $produk = Produk::where('status', 'aktif')
             ->limit(8)
             ->get();
             
 
-            if($user->active) {
-                return view('home', compact('produk'))->with('success', 'Login berhasil!, halo '.$user->name);
+            if($user->status==1) {
+                return view('karyawan.index', compact('user', 'karyawan'))->with('success', 'Login berhasil!, halo '.$user->name);
             } else {
                 Auth::logout();
-                return redirect('/login')->with('alert', 'Akun anda belum aktif, silahkan cek email anda');
+                return redirect('/login')->with('alert', 'Akun anda nonaktif, kontak admin anda!');
             }
         } else {
             return redirect('/login')->with('alert', 'Email atau Password salah!');

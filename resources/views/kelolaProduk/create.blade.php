@@ -4,43 +4,6 @@
 <head>
     <title>Program Toko - Tambah Produk</title>
     @include('ADMTemplate.head')
-    <style>
-        .varian-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            padding: 20px;
-        }
-        .varian-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-        }
-        .varian-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-        .varian-footer {
-            padding: 10px;
-            background: #f8f9fa;
-            text-align: center;
-        }
-        .delete-varian {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255,0,0,0.7);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-    </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -70,44 +33,16 @@
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Tambah Produk</h1>
                                 </div>
+                                <div class="text-center mb-3">
+                                    <img id="preview-image" 
+                                        class="mx-auto d-block rounded" 
+                                        src="{{ asset('images/noimage.jpg') }}" 
+                                        width="200" height="200" 
+                                        alt="Gambar Produk">
+                                </div>
                                 <form class="user" action="{{ route('produks.store') }}" method="POST"
                                     enctype="multipart/form-data">
                                     @csrf
-                                    <div class="row mb-3">
-                                        <div class="col-sm-2 mb-3 mb-sm-0">
-                                            <button type="button" class="btn btn-primary mb-3" onclick="showoption()"> Tambah Varian</button>
-                                        </div>
-                                    </div>
-                                     @if(!empty(session('varian')))
-                                        <div class="varian-grid">
-                                            @foreach (session('varian') as $index => $item)
-                                                <div class="varian-card">
-                                                    <button type="button" class="delete-varian" onclick="deleteTempVarian({{ $index }})">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
-
-                                                    @if(!empty($item['gambars']))
-                                                        <a onclick="editVarian({{ $index }})">
-                                                            <img src="{{ asset('storage/'.$item['gambars']) }}" class="varian-img" alt="Varian {{ $item['namas'] ?? '' }}">
-                                                        </a>
-                                                    @else
-                                                        <a onclick="editVarian({{ $index }})">                                                    
-                                                            <div class="varian-img bg-light d-flex align-items-center justify-content-center">
-                                                                <i class="fas fa-image fa-2x text-muted"></i>
-                                                            </div>
-                                                        </a>
-                                                    @endif
-
-                                                    <div class="varian-footer">
-                                                        <a onclick="editVarian({{ $index }})">
-                                                            <h5 class="text-dark">{{ $item['namas'] ?? '' }}</h5>
-                                                            <h5 class="text-dark">Stok: {{ $item['stok'] ?? '' }}</h5>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
                                     <div class="form-group row">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
                                             <label class="font-weight-bold">Nama Produk</label>
@@ -147,6 +82,17 @@
                                                 @endforeach
                                             </select>
                                             @error('id_kategori')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <label class="font-weight-bold">Gambar Produk</label>
+                                            <input type="file"
+                                                class="form-control form-control-user @error('gambar') is-invalid @enderror"
+                                                id="InputGambar" name="gambar" required>
+                                            @error('gambar')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -212,19 +158,6 @@
                         </div>
                     </div>
                     </div>
-
-                    <div class="modal fade" id="editVarian" tabindex="-1" aria-labelledby="editLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                        <div id="editVarianModal" class="modal-content">
-                            <div class="modal-body text-center">
-                                <div class="spinner-border text-primary" role="status"></div>
-                                <p class="mt-2">Memuat opsi...</p>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-                    
-
                     </div>
 
                     </div>
@@ -248,87 +181,6 @@
     @include('ADMTemplate.logoutModal')
 
     @include('ADMTemplate.script')
-
-    <script>
-        function showoption()
-        {
-            fetch("{{ route('produk.varian') }}")
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('option-content').innerHTML = html;
-                const modal = new bootstrap.Modal(document.getElementById('option'));
-                modal.show();
-            })
-        .catch(error => {
-                console.error('Error fetching option:', error);
-                document.getElementById('option-content').innerHTML = '<div class="alert alert-danger">Gagal memuat opsi.</div>';
-            });
-        }
-    </script>
-
-    <script>
-        function showDetail(id) {
-            fetch(``)
-                .then(response => {
-                    if (!response.ok) throw new Error("Gagal memuat data.");
-                    return response.text();
-                })
-                .then(html => {
-                    document.getElementById('modal-content').innerHTML = html;
-                    const modal = new bootstrap.Modal(document.getElementById('DetailModal'));
-                    modal.show();
-                })
-                .catch(err => {
-                    document.getElementById('modal-content').innerHTML = `<div class="p-3"><p class="text-danger">${err.message}</p></div>`;
-                });
-        }
-    </script>
-
-    <script>
-        function closeModal() {
-            const modalEl = document.getElementById('DetailModal');
-            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.hide();
-        }
-    </script>
-    <script>
-    function deleteTempVarian(index) {
-        if (confirm('Hapus varian ini?')) {
-            fetch("{{ route('varian.temp.delete') }}", {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ index: index })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            });
-        }
-    }
-    </script>
-
-    <script>
-        function editVarian(index) {
-            fetch(`/varian/session/${index}`)
-                .then(response => {
-                    if (!response.ok) throw new Error("Gagal memuat data.");
-                    return response.text();
-                })
-                .then(html => {
-                    document.getElementById('editVarianModal').innerHTML = html;
-                    const modal = new bootstrap.Modal(document.getElementById('editVarian'));
-                    modal.show();
-                })
-                .catch(err => {
-                    document.getElementById('editVarianModal').innerHTML = `<div class="p-3"><p class="text-danger">${err.message}</p></div>`;
-                });
-        }
-    </script>
     
     <script>
         @if (session('success'))
@@ -348,6 +200,17 @@
                 confirmButtonText: 'OK'
             });
         @endif
+    </script>
+    <script>
+        document.getElementById('InputGambar').addEventListener('change', function(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('preview-image').src = reader.result;
+            }
+            if (event.target.files[0]) {
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        });
     </script>
     
 </body>
