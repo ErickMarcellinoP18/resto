@@ -34,13 +34,13 @@ class LoginController extends Controller
             
 
             if($user->status==1) {
-                return view('karyawan.index', compact('user', 'karyawan'))->with('success', 'Login berhasil!, halo '.$user->name);
+                return redirect('/')->with('success', 'Login berhasil!, halo '.$user->name);
             } else {
                 Auth::logout();
-                return redirect('/login')->with('alert', 'Akun anda nonaktif, kontak admin anda!');
+                return redirect('/')->with('alert', 'Akun anda nonaktif, kontak admin anda!');
             }
         } else {
-            return redirect('/login')->with('alert', 'Email atau Password salah!');
+            return redirect('/')->with('alert', 'Email atau Password salah!');
         }
     }
 

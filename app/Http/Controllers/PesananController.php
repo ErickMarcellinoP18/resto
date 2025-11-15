@@ -71,30 +71,23 @@ class PesananController extends Controller
 
             foreach ($cart as $id => $details) {
                 $jumlah_dibutuhkan = $details['jumlah'];
-                $total_hpp = 0;
+                // $total_hpp = 0;
                 
-                $stok_available = DetilProduk::where('id_varian', $id)
-                    ->where('stok', '>', 0)
-                    ->orderBy('id', 'asc')
-                    ->get();
+                $produk = Produk::find($details['id_produk']);
+                $total_stok = $produk->stok;
 
-                $total_stok = $stok_available->sum('stok');
                 if ($total_stok < $jumlah_dibutuhkan) {
-                    throw new Exception("Stok produk {$details['nama']} {$details['varian']} tidak mencukupi. Stok tersedia: $total_stok");
+                    throw new Exception("Stok produk {$details['nama']} tidak mencukupi. Stok tersedia: $total_stok");
                 }
 
-                foreach ($stok_available as $stok) {
-                    if ($jumlah_dibutuhkan <= 0) break;
+                if ($jumlah_dibutuhkan <= 0) break;
+                $jumlah_diambil = min($produk->stok, $jumlah_dibutuhkan);
+                $produk->stok -= $jumlah_diambil;
+                $produk->save();
+                // $total_hpp += $jumlah_diambil * $produk->harga;
+                $jumlah_dibutuhkan -= $jumlah_diambil;
 
-                    $jumlah_diambil = min($stok->stok, $jumlah_dibutuhkan);
-                    $stok->stok -= $jumlah_diambil;
-                    $stok->save();
-
-                    $total_hpp += $jumlah_diambil * $stok->harga;
-                    $jumlah_dibutuhkan -= $jumlah_diambil;
-                }
-
-                $hpp_per_unit = $total_hpp / $details['jumlah'];
+                // $hpp_per_unit = $total_hpp / $details['jumlah'];
 
 
                 DetilNota::create([
@@ -102,18 +95,14 @@ class PesananController extends Controller
                     'id_produk' => $details['id_produk'],
                     'jumlah' => $details['jumlah'],
                     'harga' => $details['harga'],
-                    'hpp' => $hpp_per_unit,
+                    // 'hpp' => $hpp_per_unit,
                     'subtotal' => $details['harga'] * $details['jumlah'],
                     'diskon' => $details['diskon'],
-                    'id_varian' => $id,
                 ]);
             }
 
             
             \DB::commit();
-            
-            DetilProduk::where('stok', 0)->delete();
-            
 
             session()->forget('cart');
 
@@ -156,30 +145,22 @@ class PesananController extends Controller
 
             foreach ($cart as $id => $details) {
                 $jumlah_dibutuhkan = $details['jumlah'];
-                $total_hpp = 0;
-                
-                $stok_available = DetilProduk::where('id_varian', $id)
-                    ->where('stok', '>', 0)
-                    ->orderBy('id', 'asc')
-                    ->get();
+                // $total_hpp = 0;
+                $produk = Produk::find($details['id_produk']);
+                $stok_available = $produk->stok;
 
-                $total_stok = $stok_available->sum('stok');
+                $total_stok = $stok_available;
                 if ($total_stok < $jumlah_dibutuhkan) {
                     throw new Exception("Stok produk {$details['nama']} {$details['varian']} tidak mencukupi. Stok tersedia: $total_stok");
                 }
 
-                foreach ($stok_available as $stok) {
-                    if ($jumlah_dibutuhkan <= 0) break;
-
-                    $jumlah_diambil = min($stok->stok, $jumlah_dibutuhkan);
-                    $stok->stok -= $jumlah_diambil;
-                    $stok->save();
-
-                    $total_hpp += $jumlah_diambil * $stok->harga;
-                    $jumlah_dibutuhkan -= $jumlah_diambil;
-                }
-
-                $hpp_per_unit = $total_hpp / $details['jumlah'];
+                if ($jumlah_dibutuhkan <= 0) break;
+                $jumlah_diambil = min($produk->stok, $jumlah_dibutuhkan);
+                $produk->stok -= $jumlah_diambil;
+                $produk->save();
+                // $total_hpp += $jumlah_diambil * $stok->harga;
+                $jumlah_dibutuhkan -= $jumlah_diambil;
+                // $hpp_per_unit = $total_hpp / $details['jumlah'];
 
 
                 DetilNota::create([
@@ -187,10 +168,9 @@ class PesananController extends Controller
                     'id_produk' => $details['id_produk'],
                     'jumlah' => $details['jumlah'],
                     'harga' => $details['harga'],
-                    'hpp' => $hpp_per_unit,
+                    // 'hpp' => $hpp_per_unit,
                     'subtotal' => $details['harga'] * $details['jumlah'],
                     'diskon' => $details['diskon'],
-                    'id_varian' => $id,
                 ]);
             }
 

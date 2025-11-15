@@ -12,7 +12,7 @@
                 <a href="#" class="delete-product"><i class="fas fa-times"></i></a>
                 <img src="{{ asset('storage/' . $details['gambar']) }}" alt="Product">
                 <div class="content">
-                    <h3>{{ $details['nama'] }} {{ $details['varian'] }}</h3>
+                    <h3>{{ $details['nama'] }}</h3>
                     <div class="harga fs-4 fw-bold mb-2">Rp.{{ number_format($details['harga'], 0, ',', '.') }}/-</div>
                     <input type="number" class="quantity form-control edit-cart-info" min="1" value="{{$details['jumlah']}}">
                 </div>

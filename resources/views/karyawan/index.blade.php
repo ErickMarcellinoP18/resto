@@ -26,7 +26,7 @@
                             @if (session('error'))
                                 <div class="alert alert-danger">{{ session('error') }}</div>
                             @endif
-                            <a class="btn btn-info" href="">Tambah Karyawan</a>
+                            <a class="btn btn-info" href="{{ route('karyawan.create') }}">Tambah Karyawan</a>
                             <button type="submit" class="btn btn-success">Update Jabatan</button>
                         </div>
                         <div class="card-body">
@@ -35,12 +35,14 @@
                                 <table id="userRolesDataTable" class="table table-striped table-bordered" width="100%">
                                     <thead>
                                         <tr class="text-center">
-                                            <th >No</th>
+                                            <th>No</th>
                                             <th> Foto</th>
-                                            <th >Nama</th>
-                                            <th >Email</th>
-                                            <th >Jabatan Sekarang</th>
-                                            <th >Pilihan</th>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>NIP</th>
+                                            <th>Jabatan Sekarang</th>
+                                            <th>Pilihan</th>
+                                            <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -54,6 +56,7 @@
                                             @endif
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
+                                            <td>{{ $user->nip }}</td>
                                             <td class="text-white">
                                                 <span class="badge bg-{{ $user->jabatan === 1 ? 'success' : ($user->jabatan === 0 ? 'danger' : ($user->jabatan === 2 ? 'info' : 'success-emphasis')) }}">
                                                     {{ $user->jabatan === 0 ? 'Kasir' : ($user->jabatan === 1 ? 'Admin' : ($user->jabatan === 2 ? 'Super Admin' : 'Nonaktif')) }}
@@ -66,6 +69,11 @@
                                                     <option value="1" {{ $user->jabatan == 'admin' ? 'selected' : '' }}>Admin</option>
                                                     <option value="non" {{ $user->jabatan == 'non' ? 'selected' : '' }}>Nonaktif</option>
                                                 </select>
+                                            </td>
+                                            <td>
+                                                @if($user->id !== auth()->id())
+                                                <a href="{{ route('karyawan.destroy') }}" class="btn btn-danger"><i class="bi bi-trash2-fill"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                         @empty

@@ -80,7 +80,7 @@
                 $tHargaAkhir+=$hargaAkhir;
                 @endphp
                     <tr>
-                        <td>{{ $item['nama'] }} {{ $item['varian'] }}</td>
+                        <td>{{ $item['nama'] }}</td>
                         <td>{{ $item['jumlah'] }}</td>
                         <td><strong>Rp. {{ number_format($item['harga'], 0, ',', '.') }}</strong></td>
                         <td><strong>Rp. {{ number_format($item['harga'] * $item['jumlah'], 0, ',', '.') }}</strong></td>

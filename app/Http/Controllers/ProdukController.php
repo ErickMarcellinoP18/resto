@@ -19,7 +19,7 @@ class ProdukController extends Controller
     public function index(Request $request)
     {
         
-        $produk = Produk::where('status', 1)
+        $produk = Produk::where('status', '=',1)
         ->where(function($query) use ($request) {
             $query->where('nama', 'like', '%' . $request->search . '%')
                 ->orWhereHas('kategori', function($q) use ($request) {
@@ -30,9 +30,7 @@ class ProdukController extends Controller
         ->get();
 
         $stok = DetilProduk::select('id_produk')
-        ->selectRaw('SUM(stok) as total_stok')
-        ->groupBy('id_produk')
-        ->pluck('total_stok', 'id_produk');
+        ->groupBy('id_produk');
 
         
 

@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Nota;
 use App\Models\User;
-use App\Models\Varian;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class DetilNotaController extends Controller
@@ -113,14 +112,8 @@ class DetilNotaController extends Controller
 
    public function addProduktoCart($id)
     {
-        $varian = Varian::find($id);
-
-        if(!$varian) {
-            return redirect()->back()->with('error', 'Produk tidak ditemukan');
-        }
-
-        $stok_tersedia = DetilProduk::where('id_varian', $id)
-        ->sum('stok');
+        $produk = Produk::find($id);
+        $stok_tersedia = $produk->stok;
 
         $cart = session()->get('cart', []);
 
@@ -134,16 +127,15 @@ class DetilNotaController extends Controller
                 return redirect()->back()->with('error', 'Stok produk ini habis');
             }
 
-            $namaProduk = $varian->produk->nama;
+            $namaProduk = $produk->nama;
             
             $cart[$id] = [
                 "nama" => $namaProduk,
-                "varian" => $varian->nama_varian,
                 "jumlah" => 1,
-                "harga" => $varian->produk->harga,
-                "gambar" => $varian->gambar,
+                "harga" => $produk->harga,
+                "gambar" => $produk->gambar,
                 "diskon" => 0,
-                "id_produk" =>$varian->id_produk
+                "id_produk" =>$produk->id
             ];
         }
 
@@ -160,8 +152,9 @@ class DetilNotaController extends Controller
                 ]);
             }
 
-            $stok_tersedia = DetilProduk::where('id_varian', $request->id)
-            ->sum('stok');
+            $produk = Produk::find($request->id);
+
+            $stok_tersedia = $produk->stok;
 
             $cart = session()->get('cart');
 

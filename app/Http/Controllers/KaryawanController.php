@@ -38,4 +38,29 @@ class KaryawanController extends Controller
             return back()->with('error', 'Gagal memperbarui jabatan: '.$e->getMessage());
         }
     }
+    
+    public function create()
+    {
+        return view('karyawan.create');
+    }
+
+    public function store(Request $request)
+    {
+        //
+    }
+
+    public function destroy($id)
+    {
+        $karyawan = User::find($id);
+        if (!$karyawan) {
+            return redirect()->route('karyawan.index')->with('error', 'Karyawan tidak ditemukan.');
+        }
+        try {
+            $karyawan->status = 0;
+            $karyawan->save();
+            return redirect()->route('karyawan.index')->with('success', 'Karyawan berhasil dihapus.');
+        } catch (Exception $e) {
+            return redirect()->route('karyawan.index')->with('error', 'Gagal menghapus karyawan: ' . $e->getMessage());
+        }
+    }
 }

@@ -37,7 +37,7 @@
                                         <div class="form-group">
                                             <input type="text" name="email" class="form-control form-control-user"
                                                 id="email" aria-describedby="emailHelp"
-                                                placeholder="Masukkan NIP atau Email..." required autofocus>
+                                                placeholder="Masukkan Email Anda" required autofocus>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user"

@@ -11,8 +11,7 @@ class ProdukHomeController extends Controller
 {
     public function index(Request $request)
     {
-        $produk = Produk::with('varian')
-        ->where('status', 'aktif')
+        $produk = Produk::where('status', '=', 1)
         ->when($request->search, function($query) use ($request) {
             $query->where('nama', 'like', '%' . $request->search . '%');
         })
@@ -51,9 +50,7 @@ class ProdukHomeController extends Controller
     public function show($id)
     {
         $detilProduk = DetilProduk::where('id_produk', $id)->get();
-        $produk = Produk::with(['varian' => function($q) {
-            $q->where('status', 1);
-        }])->findOrFail($id);;
+        $produk = Produk::where('status', 1)->findOrFail($id);
         $kategori = Kategori::all();
         $stock = DetilProduk::where('id_produk', $id)
         ->sum('stok');

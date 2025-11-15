@@ -12,7 +12,7 @@
     @endif
     </h2>
     <h2>Terjual: {{ $laku }}</h2>
-    <h2><span class="stock" style="font-size: larger;">Stok Tersedia: {{ $stok[$item->id] ?? 0 }}</span></h2>
+    <h2><span class="stock" style="font-size: larger;">Stok Tersedia: 0</span></h2>
     <br>
     <span class="price">Rp. {{ number_format($item->harga, 0, ',', '.') }}</span>
     <br>

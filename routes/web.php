@@ -11,7 +11,6 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Controllers\ProdukHomeController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\RestockController;
-use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\DashboardController;
@@ -22,12 +21,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\TransController;
 use App\Models\Produk;
 
-
-
-
-
 Route::get('/', function () {
-    return view('login');
+    $produk = Produk::where('status', '=', 1) ->limit(8)->get();
+    return view('home', compact('produk'));
 });
 
 
@@ -106,13 +102,14 @@ Route::resource('/produkHome', ProdukHomeController::class);
 Route::resource('/pesanan', PesananController::class)->except('show');
 
 Route::patch('/update-shopping-cart', [DetilNotaController::class, 'updateCart'])->name('update.shopping.cart');
+
 Route::delete('/delete-cart-product', [DetilNotaController::class, 'deleteProduct'])->name('delete.cart.product');
 
 Route::resource('/restock', RestockController::class)->except('show')->middleware('auth');
+
 Route::get('/tempo', [RestockController::class, 'tempo'])->name('tempo');
 
 Route::resource('/kategori', KategoriController::class)->except('show')->middleware('auth');
-Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::resource('/supplier', SupplierController::class)->except('show')->middleware('auth');
 
@@ -159,18 +156,5 @@ Route::resource('/karyawan', KaryawanController::class)->except('show');
 Route::post('/karyawan/upjabatan', [KaryawanController::class, 'upjabatan'])->name('karyawan.upjabatan');
 
 Route::resource('/dashboard', DashboardController::class)->only('index')->middleware('auth');
-Route::get('/produk/varian', [ProdukController::class, 'addVarian'])->name('produk.varian')->middleware('auth');
-Route::post('/produk/varian/temp', [ProdukController::class, 'tempVarian'])->name('produk.varian.temp')->middleware('auth');
-Route::delete('/temp-varian-delete', [ProdukController::class, 'deleteTemp'])->name('varian.temp.delete');
-Route::post('/pembelian/update-varian', [RestockController::class, 'updateVarian'])->name('pembelian.update_varian');
-Route::get('/pembelian/cotempo', [RestockController::class, 'coTempo'])->name('pembelian.cotempo');
-Route::get('/produks/cancel', function () {
-    session()->forget('varian');
-    return redirect('/produks')->with('success', 'Membatalkan...');
-})->name('produks.cancel');
-Route::get('/varian/session/{index}', [ProdukController::class, 'editVarianTemp'])->name('varian.showSession');
-Route::get('/varian/{id}/edit', [ProdukController::class, 'editVarian'])->name('varian.edit');
-Route::put('/varian/{id}/update', [ProdukController::class, 'updateVarian'])->name('varian.update');
-Route::get('/varian/{id}/delete', [ProdukController::class, 'deleteVarian'])->name('varian.delete');
-Route::post('/produk/varian/temp/update/{index}', [ProdukController::class, 'updateTemp'])->name('produk.varian.temp.update');
+
 Route::get('/check-payment-status', [TransController::class, 'checkPaymentStatus']);
