@@ -12,5 +12,6 @@ class Kategori extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama',
+        'status'
     ];
 }

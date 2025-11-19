@@ -107,39 +107,7 @@
                     <canvas id="salesChart" height="120"></canvas>
                 </div>
                 </div>
-                <div class="card shadow-sm mt-4 mb-4">
-                    <div class="card-header">
-                        <h1>Stok Menipis</h1>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="tableStok" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr class="bg-info text-white text-center">
-                                        <th>No</th>
-                                        <th>Nama Barang</th>
-                                        <th>Varian</th>
-                                        <th>Sisa Stok</th>
-                                    </tr>
-                                </thead>  
-                                <tbody>
-                                    @forelse($varian as $index => $item)
-                                    <tr class="text-center" data-index="{{ $loop->index }}">
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $item->produk->nama }}</td>
-                                        <td>{{ $item->nama_varian }}</td>
-                                        <td>{{ $item->totalStok() }}</td>
-                                    </tr>
-                                    @empty
-                                    <tr class="text-center">
-                                        <td colspan="4">Belum ada barang yang kosong</td>
-                                    </tr>
-                                    @endforelse
-                                </tbody>  
-                            </table>
-                        </div>
-                    </div>
-                </div>
+
                 @if($laris->isNotEmpty())
                 <div class="card shadow-sm mt-4 mb-4">
                     <div class="card-header">
@@ -152,9 +120,7 @@
                                     <tr class="bg-info text-white text-center">
                                         <th>No</th>
                                         <th>Nama Produk</th>
-                                        <th>Nama Varian</th>
                                         <th>Banyak Terjual</th>
-                                        <th>Stok Tersisa</th>
                                     </tr>
                                 </thead>  
                                 <tbody>
@@ -162,48 +128,7 @@
                                     <tr class="text-center" data-index="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $item->varian->produk->nama }}</td>
-                                        <td>{{ $item->varian->nama_varian }}</td>
                                         <td>{{ $item->laku}}</td>
-                                        <td>{{ $stok[$item->id_varian] ?? 0 }}</td>
-                                    </tr>
-                                    @empty
-                                    <tr class="text-center">
-                                        <td colspan="6">Belum ada jadwal pembayaran</td>
-                                    </tr>
-                                    @endforelse
-                                </tbody>  
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                @endif
-                @if($tempo->isNotEmpty())
-                <div class="card shadow-sm mt-4 mb-4">
-                    <div class="card-header">
-                        <h1>Jadwal Pembayaran</h1>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover" id="tableStok" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr class="bg-info text-white text-center">
-                                        <th>No</th>
-                                        <th>No Pembelian</th>
-                                        <th>Tanggal Pembelian</th>
-                                        <th>Tanggal Tempo</th>
-                                        <th>Nama Supplier</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>  
-                                <tbody>
-                                    @forelse($tempo as $index => $item)
-                                    <tr class="text-center" data-index="{{ $loop->index }}">
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $item->no_trans }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}</td>
-                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_tempo)->format('d-m-Y') ?? '-'}}</td>
-                                        <td>{{ $item->supplier->nama }}</td>
-                                        <td>Rp. {{ number_format($item->total, 0, ',', '.') }}</td>
                                     </tr>
                                     @empty
                                     <tr class="text-center">

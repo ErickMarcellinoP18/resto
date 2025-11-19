@@ -95,6 +95,7 @@ Route::patch('/update-diskon', [DetilNotaController::class, 'diskonAdd'])->name(
 Route::delete('/delete-cart-product', [DetilNotaController::class, 'deleteProduct'])->name('delete.cart.product');
 
 Route::resource('/produks', ProdukController::class)->except('show')->middleware('auth');
+Route::get('/produks/cancel', [ProdukController::class, 'cancel'])->name('produks.cancel')->middleware('auth');
 Route::get('/produk', [ProdukController::class, 'prodHom'])->name('prodHom')->middleware('auth', 'verified');
 
 Route::resource('/produkHome', ProdukHomeController::class);
@@ -128,6 +129,7 @@ Route::delete('/delete-foto/{id}', [UserController::class, 'hapusFoto'])->name('
 Route::get('/pembelian/option', [RestockController::class, 'option'])->name('pembelian.option');
 Route::get('/pembelian/{id}/detail', [RestockController::class, 'detail'])->name('pembelian.detail');
 Route::get('/pembelian/{id}/tempod', [RestockController::class, 'detail'])->name('pembelian.tempod');
+Route::get('/pembelian/cotempo', [RestockController::class, 'cotempo'])->name('pembelian.cotempo');
 Route::get('/pembelian/print', [RestockController::class, 'print'])->name('pembelian.print');
 
 Route::get('/penjualan/option', [DetilNotaController::class, 'option'])->name('penjualan.option');

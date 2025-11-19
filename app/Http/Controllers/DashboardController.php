@@ -8,8 +8,8 @@ use App\Models\Nota;
 use App\Models\DetilNota;
 use App\Models\DetailPembelian;
 use App\Models\DetilProduk;
+use App\Models\Produk;
 use App\Models\Restock;
-use App\Models\Varian;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -17,31 +17,17 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        $varian = Varian::with('detilProduk', 'produk')
-        ->where('status', 1)
-        ->whereHas('produk', function($query){
-            $query->where('status', 'aktif');
-        })
-        ->get()
-        ->filter(function($item){
-            return $item->totalStok() <= $item->min_stok;
-        });
 
-        $stok = DetilProduk::select('id_varian')
-        ->selectRaw('SUM(stok) as total_stok')
-        ->groupBy('id_varian')
-        ->pluck('total_stok', 'id_varian');
+        $produk = Produk::All();
+
+
         
-        $laris = DetilNota::select('id_varian')
+        $laris = DetilNota::select('id_produk')
         ->selectRaw('SUM(jumlah) as laku')
         ->whereHas('nota', function($query) {
             $query->whereBetween('tanggal', [now()->subDays(30), now()]);
         })
-        ->whereHas('varian', function($query){
-            $query->where('status', '1');   
-        })
-        ->with(['varian'])
-        ->groupBy('id_varian')
+        ->groupBy('id_produk')
         ->orderByDesc('laku')
         ->limit(10)
         ->get()
@@ -216,14 +202,12 @@ class DashboardController extends Controller
             $salesOverview['data'][$sale->month - 1] = $sale->total;
         }
 
-        $tempo = Restock::where('tanggal_tempo', '<=', Carbon::now()->addDays(7))
-        ->whereNull('tbayar')
-        ->get();
+
 
 
         return view('dashboard', compact('user', 'nota', 'kategori', 'restock', 
         'penjualan', 'pembelian', 'keuntungan', 'penjualantd', 'pembeliantd', 
-        'keuntungantd', 'salesOverview', 'detilNota', 'detilBeli', 'stok', 
-        'thpp', 'tdis', 'thpptd', 'tdistd', 'growth', 'gp', 'gu', 'gb', 'ghl', 'varian', 'tempo', 'laris'));
+        'keuntungantd', 'salesOverview', 'detilNota', 'detilBeli', 
+        'thpp', 'tdis', 'thpptd', 'tdistd', 'growth', 'gp', 'gu', 'gb', 'ghl', 'laris'));
     }
 }

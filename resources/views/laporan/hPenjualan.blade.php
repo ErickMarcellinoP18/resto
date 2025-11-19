@@ -53,9 +53,9 @@
 </head>
 <body>
     <h1 style="text-align: center;">
-        <img src="{{ public_path('images/damai.jpeg') }}" alt="Logo" 
+        <img src="{{ public_path('images/bbg.jpg') }}" alt="Logo" 
             style="height: 50px; width: 50px; border-radius: 50%; vertical-align: middle; margin-right: 10px;">
-        <span style="vertical-align: middle;">TOKO SEPEDA DAMAI</span>
+        <span style="vertical-align: middle;">ANTIC CAFE KARAWANG</span>
     </h1>
     <div class="alamat">Jl. Pemuda No.86, Kemirirejo, Magelang Tengah, Kota Magelang, Jawa Tengah 56122</div>
     <h2>Laporan Penjualan @if($detail) Detail @endif</h2>

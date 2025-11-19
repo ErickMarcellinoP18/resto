@@ -40,7 +40,7 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover" id="dataTable" width="100%"
+                                <table class="table table-bordered table-hover" width="100%"
                                     cellspacing="0">
                                     <thead>
                                         <tr class="text-center">
@@ -49,13 +49,12 @@
                                             <th>Gambar</th>
                                             <th>Kategori</th>
                                             <th>Harga Jual</th>
-                                            <th>Jumlah Stok</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($produk as $index => $item)
-                                            <tr class="text-center">
+                                            <tr class="nota-row text-center">
                                                 <td class=" align-middle text-center">{{ $index + 1 }}</td>
 
                                                 <td>{{ $item->nama }}</td>
@@ -68,7 +67,6 @@
                                                 @endif
                                                 </td>
                                                 <td class="text-end">Rp. {{ number_format($item->harga, 0, ',', '.') }}</td>
-                                                <td>{{ $stok[$item->id] ?? 0 }}</td>
                                                 <td>
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                         action="{{ route('produks.destroy', $item->id) }}"
@@ -116,6 +114,44 @@
     @include('ADMTemplate.logoutModal')
 
     @include('ADMTemplate.script')
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const rows = document.querySelectorAll('.nota-row');
+            const rowsPerPage = 10;
+            let currentPage = 1;
+
+            function showPage(page) {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                const totalPages = Math.max(1, Math.ceil(rows.length / rowsPerPage));
+
+                rows.forEach((row, index) => {
+                    row.style.display = index >= start && index < end ? '' : 'none';
+                });
+
+                document.getElementById('pageInfo').innerText = `Halaman ${page} dari ${totalPages}`;
+                document.getElementById('prevPage').disabled = page === 1;
+                document.getElementById('nextPage').disabled = end >= rows.length;
+            }
+
+            document.getElementById('prevPage').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    showPage(currentPage);
+                }
+            });
+
+            document.getElementById('nextPage').addEventListener('click', () => {
+                if ((currentPage * rowsPerPage) < rows.length) {
+                    currentPage++;
+                    showPage(currentPage);
+                }
+            });
+
+            showPage(currentPage);
+        });
+    </script>
     
 </body>
 

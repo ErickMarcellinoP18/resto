@@ -39,7 +39,9 @@ class ProdukController extends Controller
 
     public function create()
     {
-        $kategori = Kategori::all();
+        $kategori = Kategori::where('status', '=',1)
+        ->orderBy('nama', 'asc')
+        ->get();
         return view('kelolaProduk.create', compact('kategori'));
     }
 
@@ -120,5 +122,10 @@ class ProdukController extends Controller
         $produk->status = 0;
         $produk->save();
         return redirect()->route('produks.index')->with('success', 'Produk berhasil dihapus');
+    }
+
+    public function cancel()
+    {
+        return redirect()->route('produks.index')->with('success', 'Batal Menambah Produk');
     }
 }

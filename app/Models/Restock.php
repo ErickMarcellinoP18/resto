@@ -18,6 +18,7 @@ class Restock extends Model
         'no_trans',
         'metode',
         'tbayar',
+        'nama',
     ];
 
 

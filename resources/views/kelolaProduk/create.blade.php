@@ -91,7 +91,7 @@
                                             <label class="font-weight-bold">Gambar Produk</label>
                                             <input type="file"
                                                 class="form-control form-control-user @error('gambar') is-invalid @enderror"
-                                                id="InputGambar" name="gambar" required>
+                                                id="InputGambar" name="gambar">
                                             @error('gambar')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

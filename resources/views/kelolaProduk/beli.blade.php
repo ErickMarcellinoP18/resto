@@ -45,7 +45,6 @@
                                         <tr class="text-center">
                                             <th>No</th>
                                             <th>Nama Barang</th>
-                                            <th>Varian</th>
                                             <th>Qty</th>
                                             <th>Harga Satuan</th>
                                             <th>Total</th>
@@ -55,25 +54,9 @@
                                     <tbody>
                                         @if(session('beli'))
                                             @foreach (session('beli') as $id => $details)
-                                                        @php
-                                                            $produk = App\Models\Produk::with('varian')->find($details['id_produk']);
-                                                        @endphp
                                                 <tr class="text-center" data-id="{{ $id }}">
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $details['nama'] }}</td>
-                                                    <td>
-                                                        <select name="varian[{{ $id }}]" class="form-select form-select-sm">
-                                                            <option value="">-- Pilih Varian --</option>
-                                                            @foreach ($produk->varian as $varian)
-                                                                @if($varian->status == 1)
-                                                                    <option value="{{ $varian->id }}" 
-                                                                        {{ isset($details['id_varian']) && $details['id_varian'] == $varian->id ? 'selected' : '' }}>
-                                                                        {{ $varian->nama_varian }} 
-                                                                    </option>
-                                                                @endif
-                                                            @endforeach
-                                                        </select>
-                                                    </td>
                                                     </td>
                                                     <td>{{ $details['jumlah'] }}</td>
                                                     <td class="text-end">Rp. {{ number_format($details['harga'], 0, ',', '.') }}</td>
@@ -248,55 +231,6 @@
         });
 
     </script>
-
-<script>
-
-    $(document).ready(function() {
-        $(document).on('change', 'select[name^="varian["]', function() {
-            const selectElement = $(this);
-            const itemId = selectElement.attr('name').match(/\[(.*?)\]/)[1];
-            const varianId = selectElement.val();
-            
-            if (!varianId) return;
-
-            selectElement.prop('disabled', true);
-            const row = selectElement.closest('tr');
-            row.css('opacity', '0.7');
-
-            $.ajax({
-                url: '{{ route("pembelian.update_varian") }}',
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    item_id: itemId,
-                    varian_id: varianId
-                },
-                success: function(response) {
-                    if (response.success) {
-                        const originalColor = row.css('background-color');
-                        row.css('background-color', '#e8f5e9')
-                        .delay(500)
-                        .animate({backgroundColor: originalColor}, 1000);
-                    }
-                },
-                error: function() {
-                    alert('Gagal menyimpan varian');
-                    selectElement.val(selectElement.data('prev-value'));
-                },
-                complete: function() {
-                    selectElement.prop('disabled', false);
-                    row.css('opacity', '1');
-                }
-            });
-        });
-
-        $(document).on('focus', 'select[name^="varian["]', function() {
-            $(this).data('prev-value', $(this).val());
-        });
-    });
-
-</script>
-
 
 </body>
 </html>

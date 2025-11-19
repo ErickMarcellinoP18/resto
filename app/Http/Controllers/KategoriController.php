@@ -10,7 +10,7 @@ class KategoriController extends Controller
 {
     public function index()
     {
-        $kategori = Kategori::all();
+        $kategori = Kategori::where('status', '=',1)->get();
         return view('kategori.index', compact('kategori'));
     }
 
@@ -58,7 +58,8 @@ class KategoriController extends Controller
     {
         try{
             $kategori = Kategori::find($id);
-            $kategori->delete();
+            $kategori->status = 0;
+            $kategori->save();
             return redirect()->route('kategori.index')->with('success', 'Berhasil menghapus kategori');
         } catch(Exception $e){
             return redirect()->route('kategori.index')->with('error', 'Gagal menghapus kategori');

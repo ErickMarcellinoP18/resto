@@ -1,8 +1,8 @@
 <div class="modal-header bg-primary text-white">
     @if(Route::is('tambahbeli'))
-  <h5 class="modal-title">Beli Produk</h5>
+  <h5 class="modal-title">Pengeluaran</h5>
   @else
-  <h5 class="modal-title">Beli</h5>
+  <h5 class="modal-title">Pengeluaran</h5>
   @endif
 </div>
 
@@ -11,7 +11,7 @@
     <div class="card-body p-0">
         <div class="p-5">
             <div class="text-center">
-                <h1 class="h4 text-gray-900 mb-4">Tambah Data Pembelian</h1>
+                <h1 class="h4 text-gray-900 mb-4">Tambah Data Pengeluaran</h1>
             </div>
             <form class="user"  @if(isset($editItem))
                 action="{{ route('pembelian.edit') }}" 
@@ -25,13 +25,12 @@
                         $produkTerbeli = collect($beli)->pluck('id_produk')->toArray();
                     @endphp
                 <div class="form-group">
-                    <label for="id_produk">Pilih Produk</label>
-                    <select name="id_produk" id="id_produk" class="form-control">
-                        <option value="">-- Pilih Produk --</option>
-                        @foreach ($produk as $p)
-                            <option value="{{ $p->id }}">{{ $p->nama }}</option>
-                        @endforeach
-                    </select>
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <label class="font-weight-bold">Nama</label>
+                        <input type="text"
+                        class="form-control form-control-user @error('nama')
+                        @enderror">
+                    </div>
                 </div>
 
    

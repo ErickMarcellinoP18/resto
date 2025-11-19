@@ -9,7 +9,6 @@ use App\Models\Supplier;
 use App\Models\Produk;
 use App\Models\DetailPembelian;
 use App\Models\DetilProduk;
-use App\Models\Varian;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 
@@ -62,7 +61,6 @@ class RestockController extends Controller
     {
         $beli = session()->get('beli',[]);
         $produk = Produk::where('status', 'aktif')
-        ->with('varian')
         ->select('id', 'nama', 'harga')
         ->get();
         return view('kelolaProduk.modalBeli', compact('produk', 'beli'));
@@ -122,7 +120,6 @@ class RestockController extends Controller
                 DetailPembelian::create([
                     'id_pembelian' => $restock->id,
                     'id_produk' => $item['id_produk'],
-                    'id_varian' => $item['id_varian'],
                     'jumlah' => $item['jumlah'],
                     'harga' => $item['harga'],
                     'total' => $item['jumlah'] * $item['harga'],
@@ -130,7 +127,6 @@ class RestockController extends Controller
 
                 DetilProduk::create([
                     'id_produk' => $item['id_produk'],
-                    'id_varian' => $item['id_varian'],
                     'id_supplier' => $request->id_supplier,
                     'stok' => $item['jumlah'],
                     'harga' => $item['harga'],
@@ -170,8 +166,6 @@ class RestockController extends Controller
         $arr[$key] = [
             "id_produk" => $request->id_produk,
             "nama" => Produk::find($request->id_produk)->nama,
-            "id_varian" => null,
-            "nama_varian" => null,
             "jumlah" => $jumlah,
             "harga" => $harga,
         ];
@@ -304,30 +298,30 @@ class RestockController extends Controller
         }
     }
 
-    public function updateVarian(Request $request)
-    {
-        $request->validate([
-            'item_id' => 'required',
-            'varian_id' => 'required|exists:varian,id'
-        ]);
+    // public function updateVarian(Request $request)
+    // {
+    //     $request->validate([
+    //         'item_id' => 'required',
+    //         'varian_id' => 'required|exists:varian,id'
+    //     ]);
 
-        $beli = session()->get('beli', []);
+    //     $beli = session()->get('beli', []);
         
-        if (isset($beli[$request->item_id])) {
-            $varian = Varian::find($request->varian_id);
+    //     if (isset($beli[$request->item_id])) {
+    //         $varian = Varian::find($request->varian_id);
             
-            $beli[$request->item_id]['id_varian'] = $varian->id;
-            $beli[$request->item_id]['nama_varian'] = $varian->nama_varian;
+    //         $beli[$request->item_id]['id_varian'] = $varian->id;
+    //         $beli[$request->item_id]['nama_varian'] = $varian->nama_varian;
             
-            session()->put('beli', $beli);
+    //         session()->put('beli', $beli);
             
-            return response()->json([
-                'success' => true,
-            ]);
-        }
+    //         return response()->json([
+    //             'success' => true,
+    //         ]);
+    //     }
 
-        return response()->json(['success' => false], 404);
-    }
+    //     return response()->json(['success' => false], 404);
+    // }
 
     public function tempo(Request $request)
     {
