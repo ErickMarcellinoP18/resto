@@ -7,11 +7,9 @@ use App\Models\Kategori;
 use App\Models\Nota;
 use App\Models\DetilNota;
 use App\Models\DetailPembelian;
-use App\Models\DetilProduk;
 use App\Models\Produk;
 use App\Models\Restock;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -44,6 +42,10 @@ class DashboardController extends Controller
         $now = now();
         $yesterday = now()->subDay();
         $lastmonth = now()->subMonth();
+
+        $year = date('Y');
+        $month = date('m');
+        $totalDays = cal_days_in_month(CAL_GREGORIAN, $month, $year);
 
         $nota = Nota::whereMonth('tanggal', now()->month)
         ->whereYear('tanggal', now()->year)
@@ -181,6 +183,12 @@ class DashboardController extends Controller
         ->groupBy('month')
         ->orderBy('month')
         ->get();
+
+        $dailySales = Nota::selectRaw('DAY(tanggal) as day, SUM(total) as total')
+        ->whereMonth('tanggal', $month)
+        ->whereYear('tanggal', $year)
+        ->groupBy('day')
+        ->get();
         
         $currentYearSales = Nota::whereYear('tanggal', $filterYear)->sum('total');
         $lastYearSales = Nota::whereYear('tanggal', $filterYear - 1)->sum('total');
@@ -193,14 +201,32 @@ class DashboardController extends Controller
 
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+        $label = [];
+        for ($i = 1; $i <= $totalDays; $i++) {
+            $label[] = $i; // atau sprintf("%02d", $i) kalau mau 01,02,03...
+        }
+
+        $datas = array_fill(0, $totalDays, 0);
+
         $salesOverview = [
             'labels' => $months,
             'data' => array_fill(0, 12, 0)
         ];
 
+       
+
         foreach ($salesData as $sale) {
             $salesOverview['data'][$sale->month - 1] = $sale->total;
         }
+
+        foreach ($dailySales as $sale) {
+            $datas[$sale->day - 1] = $sale->total;
+        }
+
+         $salesOverviews = [
+            'label' => $label,
+            'datas' => $datas
+        ];
 
 
 
@@ -208,6 +234,6 @@ class DashboardController extends Controller
         return view('dashboard', compact('user', 'nota', 'kategori', 'restock', 
         'penjualan', 'pembelian', 'keuntungan', 'penjualantd', 'pembeliantd', 
         'keuntungantd', 'salesOverview', 'detilNota', 'detilBeli', 
-        'thpp', 'tdis', 'thpptd', 'tdistd', 'growth', 'gp', 'gu', 'gb', 'ghl', 'laris'));
+        'thpp', 'tdis', 'thpptd', 'tdistd', 'growth', 'gp', 'gu', 'gb', 'ghl', 'laris', 'salesOverviews'));
     }
 }

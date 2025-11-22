@@ -16,3 +16,12 @@
     
 
 <link href="{{ asset('homeStyle.css') }}" rel="stylesheet">
+
+<style>
+    .cart-items-container {
+    max-height: 80vh;
+    overflow: auto; /* aktifkan scroll vertikal */
+    padding-right: 10px; /* biar ga mepet */
+    padding-top: 250px;
+}
+</style>

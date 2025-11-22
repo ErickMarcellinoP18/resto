@@ -111,5 +111,17 @@
                 }
             });
         });
+
+        document.addEventListener("click", function (e) {
+            const cart = document.getElementById("shopping-cart");
+            const cartBtn = document.getElementById("cart-btn");
+
+            if (cart.style.display === "block") {
+                if (!cart.contains(e.target) && e.target !== cartBtn) {
+                    cart.style.display = "none";
+                }
+            }
+        });
     </script>
+
 

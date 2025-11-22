@@ -97,14 +97,26 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card shadow-sm mt-4">
                 <div class="card-body">
-                    <h6 class="card-title">Grafik Penjualan 
+                    <h6 class="card-title">Grafik Penjualan Bulanan
                     <span class="{{ $growth >= 0 ? 'text-success' : 'text-danger' }}">
                         {{ $growth >= 0 ? '↑' : '↓' }}{{ abs(round($growth, 1)) }}% dari tahun lalu
                     </span>
                     </h6>
                     <canvas id="salesChart" height="120"></canvas>
+                </div>
+                </div>
+
+                <div class="card shadow-sm mt-4">
+                <div class="card-body">
+                    <h6 class="card-title">Grafik Penjualan Harian
+                    <span class="{{ $growth >= 0 ? 'text-success' : 'text-danger' }}">
+                        {{ $growth >= 0 ? '↑' : '↓' }}{{ abs(round($growth, 1)) }}% dari tahun lalu
+                    </span>
+                    </h6>
+                    <canvas id="salesCharts" height="120"></canvas>
                 </div>
                 </div>
 
@@ -159,6 +171,46 @@
             labels: @json($salesOverview['labels']),
             datasets: [{
               data: @json($salesOverview['data']),
+              borderColor: '#4e73df',
+              backgroundColor: 'rgba(78, 115, 223, 0.1)',
+              tension: 0.3,
+              fill: true
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    return 'Rp ' + context.parsed.y.toLocaleString('id-ID');
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    return 'Rp ' + value.toLocaleString('id-ID');
+                  }
+                }
+              }
+            }
+          }
+        });
+      });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        new Chart(document.getElementById('salesCharts'), {
+          type: 'line',
+          data: {
+            labels: @json($salesOverviews['label']),
+            datasets: [{
+              data: @json($salesOverviews['datas']),
               borderColor: '#4e73df',
               backgroundColor: 'rgba(78, 115, 223, 0.1)',
               tension: 0.3,

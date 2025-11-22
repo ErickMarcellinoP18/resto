@@ -118,14 +118,14 @@ class DetilNotaController extends Controller
         $cart = session()->get('cart', []);
 
          if (isset($cart[$id])) {
-            if ($cart[$id]['jumlah'] + 1 > $stok_tersedia) {
-                return redirect()->back()->with('error', 'Stok tidak mencukupi. Stok tersedia: ' . $stok_tersedia);
-            }
+            // if ($cart[$id]['jumlah'] + 1 > $stok_tersedia) {
+            //     return redirect()->back()->with('error', 'Stok tidak mencukupi. Stok tersedia: ' . $stok_tersedia);
+            // }
             $cart[$id]['jumlah']++;
         } else {
-            if ($stok_tersedia < 1) {
-                return redirect()->back()->with('error', 'Stok produk ini habis');
-            }
+            // if ($stok_tersedia < 1) {
+            //     return redirect()->back()->with('error', 'Stok produk ini habis');
+            // }
 
             $namaProduk = $produk->nama;
             
@@ -158,12 +158,12 @@ class DetilNotaController extends Controller
 
             $cart = session()->get('cart');
 
-            if($request->quantity > $stok_tersedia){
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Stok tidak mencukupi. Stok tersedia: ' . $stok_tersedia
-                ]);
-            }
+            // if($request->quantity > $stok_tersedia){
+            //     return response()->json([
+            //         'success' => false,
+            //         'message' => 'Stok tidak mencukupi. Stok tersedia: ' . $stok_tersedia
+            //     ]);
+            // }
 
             $cart[$request->id]['jumlah'] = $request->quantity;
             session()->put('cart', $cart);

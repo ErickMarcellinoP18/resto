@@ -37,13 +37,14 @@
                 <div class="col-md ms-2 text-center">
                     <label class="row align-item-center d-flex flex-column text-center" for="filterDate" class="form-label mb-0 me-2">Tanggal Mulai</label>
                     <input type="date" class="form-control" id="filterDate" name="filterDate"
-                        value="{{ request('filterDate') ?? now()->format('Y-m-d') }}"
-                        max="{{ now()->format('Y-m-d') }}">
+                        value="{{ request('filterDate') ?? \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d') }}"
+                        max="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d') }}">
                 </div>
                 <div class="col-md ms-2 text-center">
                     <label class="row align-item-center d-flex flex-column text-center" for="filterDate" class="form-label mb-0 me-2">Tanggal Selesai</label>
                     <input type="date" class="form-control" id="filterDateDone" name="filterDateDone"
-                        value="{{ request('filterDateDone') ?? now()->format('Y-m-d') }}" max="{{ now()->format('Y-m-d') }}">
+                        value="{{ request('filterDateDone') ?? \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d') }}"
+                        max="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d') }}">
                 </div>
                 @endif
             </form>

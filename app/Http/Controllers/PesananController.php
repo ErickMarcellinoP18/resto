@@ -63,29 +63,29 @@ class PesananController extends Controller
                 'total' => $total,
                 'bayar' => $uang,
                 'kembali' => $kembalian,
-                'tanggal' => Carbon::today(),
+                'tanggal' => Carbon::now('Asia/Jakarta'),
                 'id_kasir' => auth()->user()->id,
                 'status' => 'lunas',
                 'metode' => 'cash',
             ]);
 
             foreach ($cart as $id => $details) {
-                $jumlah_dibutuhkan = $details['jumlah'];
+                // $jumlah_dibutuhkan = $details['jumlah'];
                 // $total_hpp = 0;
                 
                 $produk = Produk::find($details['id_produk']);
                 $total_stok = $produk->stok;
 
-                if ($total_stok < $jumlah_dibutuhkan) {
-                    throw new Exception("Stok produk {$details['nama']} tidak mencukupi. Stok tersedia: $total_stok");
-                }
+                // if ($total_stok < $jumlah_dibutuhkan) {
+                //     throw new Exception("Stok produk {$details['nama']} tidak mencukupi. Stok tersedia: $total_stok");
+                // }
 
-                if ($jumlah_dibutuhkan <= 0) break;
-                $jumlah_diambil = min($produk->stok, $jumlah_dibutuhkan);
-                $produk->stok -= $jumlah_diambil;
-                $produk->save();
-                // $total_hpp += $jumlah_diambil * $produk->harga;
-                $jumlah_dibutuhkan -= $jumlah_diambil;
+                // if ($jumlah_dibutuhkan <= 0) break;
+                // $jumlah_diambil = min($produk->stok, $jumlah_dibutuhkan);
+                // // $produk->stok -= $jumlah_diambil;
+                // // $produk->save();
+                // // $total_hpp += $jumlah_diambil * $produk->harga;
+                // $jumlah_dibutuhkan -= $jumlah_diambil;
 
                 // $hpp_per_unit = $total_hpp / $details['jumlah'];
 
@@ -137,7 +137,7 @@ class PesananController extends Controller
                 'total' => $total,
                 'bayar' => $total,
                 'kembali' => 0,
-                'tanggal' => Carbon::today(),
+                'tanggal' => Carbon::now('Asia/Jakarta'),
                 'id_kasir' => auth()->user()->id,
                 'status' => 'lunas',
                 'metode' => 'QRIS',
@@ -150,16 +150,16 @@ class PesananController extends Controller
                 $stok_available = $produk->stok;
 
                 $total_stok = $stok_available;
-                if ($total_stok < $jumlah_dibutuhkan) {
-                    throw new Exception("Stok produk {$details['nama']} {$details['varian']} tidak mencukupi. Stok tersedia: $total_stok");
-                }
+                // if ($total_stok < $jumlah_dibutuhkan) {
+                //     throw new Exception("Stok produk {$details['nama']} tidak mencukupi. Stok tersedia: $total_stok");
+                // }
 
                 if ($jumlah_dibutuhkan <= 0) break;
-                $jumlah_diambil = min($produk->stok, $jumlah_dibutuhkan);
-                $produk->stok -= $jumlah_diambil;
-                $produk->save();
+                // $jumlah_diambil = min($produk->stok, $jumlah_dibutuhkan);
+                // $produk->stok -= $jumlah_diambil;
+                // $produk->save();
                 // $total_hpp += $jumlah_diambil * $stok->harga;
-                $jumlah_dibutuhkan -= $jumlah_diambil;
+                // $jumlah_dibutuhkan -= $jumlah_diambil;
                 // $hpp_per_unit = $total_hpp / $details['jumlah'];
 
 
@@ -177,7 +177,7 @@ class PesananController extends Controller
             
             \DB::commit();
             
-            DetilProduk::where('stok', 0)->delete();
+            // DetilProduk::where('stok', 0)->delete();
             
 
             session()->forget('cart');

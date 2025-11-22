@@ -65,24 +65,24 @@
             <div class="carousel-item active" data-bs-interval="3000">
                 <img src="images/depan.jpeg" class="d-block w-100" alt="First Slide"  style="filter: brightness(60%) contrast(110%);">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Toko Sepeda Damai</h5>
-                    <h5>selalu setia menemani perjalanan Anda dengan kualitas terbaik dan pelayanan penuh kepercayaan...</h5>
+                    <h5>Antic Cafe</h5>
+                    <h5>Ngopi Ga Ngopi Tetep Ngopi</h5>
                     <p>Jl. Pemuda No.86 Magelang Jawa Tengah</p>
                 </div>
             </div>
             <div class="carousel-item" data-bs-interval="3000">
                 <img src="images/untitled.jpeg" class="d-block w-100"  style="filter: brightness(60%) contrast(110%);" alt="Second Slide">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Toko Sepeda Damai</h5>
-                    <h5>selalu setia menemani perjalanan Anda dengan kualitas terbaik dan pelayanan penuh kepercayaan...</h5>
+                    <h5>Antic Cafe</h5>
+                    <h5>Melayani Dengan Rasa</h5>
                     <p>Jl. Pemuda No.86 Magelang Jawa Tengah</p>
                 </div>
             </div>
             <div class="carousel-item" data-bs-interval="3000">
                 <img src="images/untitled1.jpeg" class="d-block w-100"  style="filter: brightness(60%) contrast(110%);" alt="Third Slide">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Toko Sepeda Damai</h5>
-                    <h5>selalu setia menemani perjalanan Anda dengan kualitas terbaik dan pelayanan penuh kepercayaan...</h5>
+                    <h5>Antic Cafe</h5>
+                    <h5>Ngopi Untuk Bangkitkan Inspirasi</h5>
                     <p>Jl. Pemuda No.86 Magelang Jawa Tengah</p>
                 </div>
             </div>
@@ -105,16 +105,16 @@
         <div class="row">
 
             <div class="image col-md">
-                <img class="w-100 rounded-3" src="images/about.png" alt="">
+                <img class="w-100 rounded-3" src="images/siluet.png" alt="">
             </div>
 
             <div class="content col-md">
                 <h3 style="font-size: 36px;" class="mb-3">Komitmen adalah <span>jalan kami</span> untuk memuaskan anda!</h3>
                 <p style="font-size: 14px;" class="mb-3">
-                    Toko Sepeda Damai berkomitmen untuk selalu memberikan pelayanan terbaik dengan produk berkualitas, dan pengalaman belanja yang nyaman. Kami percaya setiap pelanggan adalah bagian dari perjalanan kami, sehingga kepuasan dan kepercayaan Anda menjadi prioritas utama dalam setiap langkah yang kami lakukan.
+                    Antic Cafe berkomitmen untuk selalu memberikan rasa terbaik dengan bahan berkualitas, serta menciptakan suasana nyaman bagi setiap pelanggan. Kami percaya bahwa setiap cangkir kopi yang kami sajikan adalah bagian dari pengalaman berharga Anda, dan kami berusaha untuk menjadikan setiap kunjungan Anda sebagai momen yang tak terlupakan.
                 </p>
                 <p style="font-size: 16px;" class="mb-3">
-                    Bersepeda dapat membuat anda bahagia, maka bersepeda lah selagi bisa!
+                    Karena rasa tidak untuk diperdebatkan, tapi untuk dinikmati.
                 </p>
             </div>
 
